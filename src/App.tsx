@@ -9,7 +9,10 @@ function App() {
       <p className="text-orange-700 mb-8 text-lg">
         Share your location with friends and family.
       </p>
-      <button className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md">
+      <button
+        type="button"
+        className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md"
+      >
         Share Location
       </button>
     </div>
