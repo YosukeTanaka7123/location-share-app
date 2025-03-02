@@ -2,7 +2,7 @@ import "./App.css";
 
 function App() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-orange-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-orange-50">
       <h1 className="text-4xl font-extrabold text-orange-900 mb-4">
         Location Share App
       </h1>
