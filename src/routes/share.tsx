@@ -1,24 +1,29 @@
 import ReactMapGL, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 
-const TokyoStation = {
-  latitude: 35.681236,
-  longitude: 139.767125,
-};
+const shareSearchSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+});
 
 export const Route = createFileRoute("/share")({
   component: Share,
+  validateSearch: zodValidator(shareSearchSchema),
 });
 
 function Share() {
-  const [location, setLocation] = useState<{
-    latitude: number;
+  const { latitude, longitude } = Route.useSearch();
+
+  const [currentLocation, setCurrentLocation] = useState<{
     longitude: number;
+    latitude: number;
   }>({
-    latitude: TokyoStation.latitude,
-    longitude: TokyoStation.longitude,
+    longitude,
+    latitude,
   });
 
   useEffect(() => {
@@ -29,9 +34,9 @@ function Share() {
 
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
-        setLocation({
-          latitude: position.coords.latitude,
+        setCurrentLocation({
           longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
         });
       },
       (error) => {
@@ -41,7 +46,7 @@ function Share() {
         enableHighAccuracy: true,
         maximumAge: 3000,
         timeout: 5000,
-      },
+      }
     );
 
     return () => navigator.geolocation.clearWatch(watchId);
@@ -52,13 +57,14 @@ function Share() {
       <ReactMapGL
         mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
         initialViewState={{
-          ...location,
+          longitude: currentLocation.longitude,
+          latitude: currentLocation.latitude,
           zoom: 15,
         }}
         style={{ width: "100%", height: "100%" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
-        <Marker longitude={location.longitude} latitude={location.latitude} />
+        <Marker {...currentLocation} />
       </ReactMapGL>
 
       {/* 戻るボタン */}

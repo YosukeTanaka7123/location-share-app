@@ -13,8 +13,14 @@ function Home() {
   const handleShareLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        () => {
-          navigate({ to: "/share" });
+        (position) => {
+          navigate({
+            to: "/share",
+            search: {
+              longitude: position.coords.longitude,
+              latitude: position.coords.latitude,
+            },
+          });
         },
         (error) => {
           if (error.code === error.PERMISSION_DENIED) {
@@ -22,7 +28,7 @@ function Home() {
           } else {
             setError("位置情報の取得に失敗しました。");
           }
-        },
+        }
       );
     } else {
       setError("お使いのブラウザは位置情報に対応していません。");
