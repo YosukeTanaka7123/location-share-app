@@ -4,6 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
 import { z } from "zod";
+import { LogOut } from "lucide-react";
 
 const shareSearchSchema = z.object({
   latitude: z.number(),
@@ -70,10 +71,10 @@ function Share() {
       {/* 戻るボタン */}
       <button
         type="button"
-        className="absolute top-4 left-4 bg-white p-2 rounded-full shadow-md z-10"
+        className="absolute top-4 right-4 bg-orange-600 hover:bg-orange-800 text-white rounded-full h-12 w-12 shadow-lg z-10 flex items-center justify-center"
         onClick={() => history.back()}
       >
-        ← 戻る
+        <LogOut className="h-7 w-7" />
       </button>
     </div>
   );
