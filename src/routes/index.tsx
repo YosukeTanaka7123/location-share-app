@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -7,9 +8,25 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
   const handleShareLocation = () => {
-    navigate({ to: "/share" });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        () => {
+          navigate({ to: "/share" });
+        },
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            setError("位置情報の利用が許可されていません。");
+          } else {
+            setError("位置情報の取得に失敗しました。");
+          }
+        },
+      );
+    } else {
+      setError("お使いのブラウザは位置情報に対応していません。");
+    }
   };
 
   return (
@@ -20,6 +37,11 @@ function Home() {
       <p className="text-orange-700 mb-8 text-lg text-center">
         友達や家族と位置情報を共有しましょう。
       </p>
+      {error && (
+        <div className="text-red-500 mb-4 bg-red-100 border-red-500 border rounded-md p-4 w-full max-w-md overflow-x-auto">
+          {error}
+        </div>
+      )}
       <button
         type="button"
         className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-md"
