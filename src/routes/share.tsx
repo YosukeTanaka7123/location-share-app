@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { LogOut } from "lucide-react";
+import { LogOut, Circle } from "lucide-react";
 
 const shareSearchSchema = z.object({
   latitude: z.number(),
@@ -65,13 +65,15 @@ function Share() {
         style={{ width: "100%", height: "100%" }}
         mapStyle="mapbox://styles/mapbox/streets-v11"
       >
-        <Marker {...currentLocation} />
+        <Marker {...currentLocation}>
+          <Circle size={24} color="white" fill="red" />
+        </Marker>
       </ReactMapGL>
 
-      {/* 戻るボタン */}
+      {/* 退出ボタン */}
       <button
         type="button"
-        className="absolute top-4 right-4 bg-orange-600 hover:bg-orange-800 text-white rounded-full h-12 w-12 shadow-lg z-10 flex items-center justify-center"
+        className="absolute top-4 right-4 bg-orange-600 hover:bg-orange-800 text-white rounded-full h-12 w-12 shadow-lg z-10 flex items-center justify-center cursor-pointer"
         onClick={() => history.back()}
       >
         <LogOut className="h-7 w-7" />

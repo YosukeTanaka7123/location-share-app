@@ -51,7 +51,7 @@ function Home() {
       )}
       <button
         type="button"
-        className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-md"
+        className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-md cursor-pointer"
         onClick={handleShareLocation}
       >
         <MapPin className="mr-2 h-5 w-5 inline-block" />
