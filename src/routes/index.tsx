@@ -1,7 +1,13 @@
-import { useState } from "react";
-import { MapView } from "./components/Map";
+import { createFileRoute } from "@tanstack/react-router";
 
-function App() {
+export const Route = createFileRoute("/")({
+  component: Home,
+});
+
+import { useState } from "react";
+import { MapView } from "../components/Map";
+
+function Home() {
   const [showMap, setShowMap] = useState(false);
   const [location, setLocation] = useState<{
     latitude: number;
@@ -75,5 +81,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
