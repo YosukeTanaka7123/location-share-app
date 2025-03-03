@@ -2,9 +2,9 @@ import ReactMapGL, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createFileRoute } from "@tanstack/react-router";
 import { zodValidator } from "@tanstack/zod-adapter";
+import { Circle, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { LogOut, Circle } from "lucide-react";
 
 const shareSearchSchema = z.object({
   latitude: z.number(),
@@ -47,7 +47,7 @@ function Share() {
         enableHighAccuracy: true,
         maximumAge: 3000,
         timeout: 5000,
-      }
+      },
     );
 
     return () => navigator.geolocation.clearWatch(watchId);

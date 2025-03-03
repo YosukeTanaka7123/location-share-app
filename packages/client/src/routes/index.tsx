@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 import { MapPin } from "lucide-react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -29,7 +29,7 @@ function Home() {
           } else {
             setError("位置情報の取得に失敗しました。");
           }
-        }
+        },
       );
     } else {
       setError("お使いのブラウザは位置情報に対応していません。");
