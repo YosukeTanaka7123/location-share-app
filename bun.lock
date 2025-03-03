@@ -15,6 +15,7 @@
       "dependencies": {
         "@tanstack/react-router": "^1.112.0",
         "@tanstack/zod-adapter": "^1.112.0",
+        "hono": "^4.7.2",
         "lucide-react": "^0.477.0",
         "mapbox-gl": "^3.10.0",
         "react": "^19.0.0",
@@ -33,9 +34,19 @@
         "@types/react": "^18.2.66",
         "@types/react-dom": "^18.2.22",
         "@vitejs/plugin-react-swc": "^3.8.0",
+        "location-share-app-server": "workspace:*",
         "tailwindcss": "^4.0.9",
         "typescript": "^5.8.2",
         "vite": "^5.2.0",
+      },
+    },
+    "packages/server": {
+      "name": "location-share-app-server",
+      "dependencies": {
+        "hono": "^4.7.2",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
       },
     },
   },
@@ -410,6 +421,8 @@
 
     "grid-index": ["grid-index@1.1.0", "", {}, "sha512-HZRwumpOGUrHyxO5bqKZL0B0GlUpwtCAzZ42sgxUPniu33R1LSFH5yrIcBCHjkctCAh3mtWKcKd9J4vDDdeVHA=="],
 
+    "hono": ["hono@4.7.2", "", {}, "sha512-8V5XxoOF6SI12jkHkzX/6aLBMU5GEF5g387EjVSQipS0DlxWgWGSMeEayY3CRBjtTUQYwLHx9JYouWqKzy2Vng=="],
+
     "ieee754": ["ieee754@1.2.1", "", {}, "sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA=="],
 
     "is-binary-path": ["is-binary-path@2.1.0", "", { "dependencies": { "binary-extensions": "^2.0.0" } }, "sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw=="],
@@ -461,6 +474,8 @@
     "lightningcss-win32-x64-msvc": ["lightningcss-win32-x64-msvc@1.29.1", "", { "os": "win32", "cpu": "x64" }, "sha512-NygcbThNBe4JElP+olyTI/doBNGJvLs3bFCRPdvuCcxZCcCZ71B858IHpdm7L1btZex0FvCmM17FK98Y9MRy1Q=="],
 
     "location-share-app-client": ["location-share-app-client@workspace:packages/client"],
+
+    "location-share-app-server": ["location-share-app-server@workspace:packages/server"],
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
 
