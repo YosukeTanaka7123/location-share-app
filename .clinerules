@@ -81,16 +81,13 @@
 - Biome
 - WebRTC
 - Mapbox GL JS
+- TanStack Router
 
 ## 開発環境
 
 - VSCode
 - Node.js (バージョンは`.tool-versions`に指定)
 - Bun (バージョンは`.tool-versions`に指定)
-
-## 技術的な制約
-
-- 特にありません。
 
 ## 依存関係
 
@@ -115,6 +112,12 @@
 - 修正後は動作確認を行い、問題が続く場合は報告。
 - 仕様変更は関係者の承認を得て、確認方法を提示。
 - コーディングルールのチェックは biome に任せる。
+- TanStack Router によるファイルベースルーティングを使用する。
+  - 新規ページを作成する場合は、最初に `src/routes` に空ファイルを作成し、TanStack Router の雛形の自動生成を待つこと。
+  - 雛形が自動生成されない場合は、 `bun run dev` が起動しているかを確認すること。
+  - `src/routeTree.gen.ts` の変更は TanStack Router に一任し、あたなは更新しないこと。
+  - ディレクトリ構造のルールは以下を遵守すること
+    - https://tanstack.com/router/v1/docs/framework/react/routing/file-based-routing
 
 ## コーディングルール
 
