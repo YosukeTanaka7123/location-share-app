@@ -1,45 +1,83 @@
+import ReactMapGL, { Marker } from "react-map-gl/mapbox";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { createFileRoute } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-adapter";
 import { useEffect, useState } from "react";
-import { MapView } from "../components/Map";
+import { z } from "zod";
+import { LogOut, Circle } from "lucide-react";
+
+const shareSearchSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+});
 
 export const Route = createFileRoute("/share")({
   component: Share,
+  validateSearch: zodValidator(shareSearchSchema),
 });
 
 function Share() {
-  const [location, setLocation] = useState<{
-    latitude: number;
+  const { latitude, longitude } = Route.useSearch();
+
+  const [currentLocation, setCurrentLocation] = useState<{
     longitude: number;
-  } | null>(null);
+    latitude: number;
+  }>({
+    longitude,
+    latitude,
+  });
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          });
-        },
-        (error) => {
-          console.error(`位置情報の取得に失敗しました: ${error.message}`);
-        },
-        { enableHighAccuracy: true },
-      );
-    } else {
-      console.error("お使いのブラウザは位置情報をサポートしていません");
+    if (!navigator.geolocation) {
+      console.log("Geolocation is not supported by this browser.");
+      return;
     }
+
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        setCurrentLocation({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
+        });
+      },
+      (error) => {
+        console.error("Error getting location:", error);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 3000,
+        timeout: 5000,
+      }
+    );
+
+    return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  if (!location) {
-    return <div>位置情報を取得中...</div>;
-  }
-
   return (
-    <MapView
-      latitude={location.latitude}
-      longitude={location.longitude}
-      onBack={() => {}}
-    />
+    <div className="relative w-full h-screen">
+      <ReactMapGL
+        mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
+        initialViewState={{
+          longitude: currentLocation.longitude,
+          latitude: currentLocation.latitude,
+          zoom: 15,
+        }}
+        style={{ width: "100%", height: "100%" }}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+      >
+        <Marker {...currentLocation}>
+          <Circle size={24} color="white" fill="red" />
+        </Marker>
+      </ReactMapGL>
+
+      {/* 退出ボタン */}
+      <button
+        type="button"
+        className="absolute top-4 right-4 bg-orange-600 hover:bg-orange-800 text-white rounded-full h-12 w-12 shadow-lg z-10 flex items-center justify-center cursor-pointer"
+        onClick={() => history.back()}
+      >
+        <LogOut className="h-7 w-7" />
+      </button>
+    </div>
   );
 }

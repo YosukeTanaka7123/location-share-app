@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { MapPin } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -13,8 +14,14 @@ function Home() {
   const handleShareLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        () => {
-          navigate({ to: "/share" });
+        (position) => {
+          navigate({
+            to: "/share",
+            search: {
+              longitude: position.coords.longitude,
+              latitude: position.coords.latitude,
+            },
+          });
         },
         (error) => {
           if (error.code === error.PERMISSION_DENIED) {
@@ -22,7 +29,7 @@ function Home() {
           } else {
             setError("位置情報の取得に失敗しました。");
           }
-        },
+        }
       );
     } else {
       setError("お使いのブラウザは位置情報に対応していません。");
@@ -44,9 +51,10 @@ function Home() {
       )}
       <button
         type="button"
-        className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-md"
+        className="bg-orange-600 hover:bg-orange-800 text-white font-bold py-3 px-6 rounded-xl shadow-md disabled:opacity-50 disabled:cursor-not-allowed w-full max-w-md cursor-pointer"
         onClick={handleShareLocation}
       >
+        <MapPin className="mr-2 h-5 w-5 inline-block" />
         位置情報を共有する
       </button>
     </div>
